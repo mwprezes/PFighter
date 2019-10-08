@@ -13,5 +13,25 @@ UCLASS()
 class PFIGHTER_API AFighterPlayerController : public APlayerController
 {
 	GENERATED_BODY()
+
+public:
+	AFighterPlayerController();
+
+	virtual void SetupInputComponent();
+
+protected:
+	//Function binded to input axis
+	void MoveRight(float AxisValue);
+
+	void Jump();
+	void Crouch();
+
+	void Punch();
+	void Kick();
+	void Block();
+
+	void Special();
+	void Ultimate();
+
 	
 };
