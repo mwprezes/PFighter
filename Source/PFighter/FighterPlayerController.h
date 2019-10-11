@@ -6,6 +6,8 @@
 #include "GameFramework/PlayerController.h"
 #include "FighterPlayerController.generated.h"
 
+class AFighterPawn;
+
 /**
  * 
  */
@@ -17,12 +19,19 @@ class PFIGHTER_API AFighterPlayerController : public APlayerController
 public:
 	AFighterPlayerController();
 
-	virtual void SetupInputComponent();
+	virtual void SetupInputComponent() override;
 
 protected:
+	// On posses override
+	virtual void OnPossess(APawn * InPawn) override;
+
+	// Our pawn of FighterPawnType
+	AFighterPawn* FighterPawn;
+
 	//Function binded to input axis
 	void MoveRight(float AxisValue);
 
+	//Functions binded to input actions
 	void Jump();
 	void Crouch();
 

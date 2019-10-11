@@ -2,8 +2,10 @@
 
 
 #include "FighterPlayerController.h"
+#include "FighterPawn.h"
 
-AFighterPlayerController::AFighterPlayerController()
+AFighterPlayerController::AFighterPlayerController() 
+	: FighterPawn(nullptr)
 {
 
 }
@@ -23,45 +25,75 @@ void AFighterPlayerController::SetupInputComponent()
 	InputComponent->BindAction("Ultimate", EInputEvent::IE_Pressed, this, &AFighterPlayerController::Ultimate);
 }
 
+void AFighterPlayerController::OnPossess(APawn * InPawn)
+{
+	Super::OnPossess(InPawn);
+	if (AFighterPawn* NewPawn = Cast<AFighterPawn>(InPawn))
+	{
+		FighterPawn = NewPawn;
+	}
+}
+
 void AFighterPlayerController::MoveRight(float AxisValue)
 {
-	if (AxisValue != 0.0f)
+	if (FighterPawn && AxisValue != 0.0f)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Move axis value %f"), AxisValue);
+		FighterPawn->MoveRight(FMath::Clamp(AxisValue, -1.0f, 1.0f));
 	}
 }
 
 void AFighterPlayerController::Jump()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Jump"));
+	if (FighterPawn)
+	{
+		FighterPawn->Jump();
+	}
 }
 
 void AFighterPlayerController::Crouch()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Crouch"));
+	if (FighterPawn)
+	{
+		FighterPawn->Crouch();
+	}
 }
 
 void AFighterPlayerController::Punch()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Punch"));
+	if (FighterPawn)
+	{
+		FighterPawn->Punch();
+	}
 }
 
 void AFighterPlayerController::Kick()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Kick"));
+	if (FighterPawn)
+	{
+		FighterPawn->Kick();
+	}
 }
 
 void AFighterPlayerController::Block()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Block"));
+	if (FighterPawn)
+	{
+		FighterPawn->Block();
+	}
 }
 
 void AFighterPlayerController::Special()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Special"));
+	if (FighterPawn)
+	{
+		FighterPawn->Special();
+	}
 }
 
 void AFighterPlayerController::Ultimate()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Ultimate"));
+	if (FighterPawn)
+	{
+		FighterPawn->Ultimate();
+	}
 }
