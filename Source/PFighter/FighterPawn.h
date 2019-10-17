@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "GameFramework/CharacterMovementComponent.h"
 #include "FighterPawn.generated.h"
 
 UCLASS()
@@ -47,7 +46,4 @@ public:
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USkeletalMeshComponent* Mesh;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UCharacterMovementComponent* FighterMovementComponent;
 };
