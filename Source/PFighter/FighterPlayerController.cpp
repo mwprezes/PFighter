@@ -36,9 +36,9 @@ void AFighterPlayerController::OnPossess(APawn * InPawn)
 
 void AFighterPlayerController::MoveRight(float AxisValue)
 {
-	if (FighterPawn && AxisValue != 0.0f)
+	if (FighterPawn)
 	{
-		FighterPawn->MoveRight(FMath::Clamp(AxisValue, -1.0f, 1.0f));
+		FighterPawn->FighterMoveRight(FMath::Clamp(AxisValue, -1.0f, 1.0f));
 	}
 }
 
@@ -46,7 +46,7 @@ void AFighterPlayerController::Jump()
 {
 	if (FighterPawn)
 	{
-		FighterPawn->Jump();
+		FighterPawn->FighterJump();
 	}
 }
 
@@ -54,7 +54,7 @@ void AFighterPlayerController::Crouch()
 {
 	if (FighterPawn)
 	{
-		FighterPawn->Crouch();
+		FighterPawn->FighterCrouch();
 	}
 }
 
@@ -62,7 +62,7 @@ void AFighterPlayerController::Punch()
 {
 	if (FighterPawn)
 	{
-		FighterPawn->Punch();
+		FighterPawn->FighterPunch();
 	}
 }
 
@@ -70,7 +70,7 @@ void AFighterPlayerController::Kick()
 {
 	if (FighterPawn)
 	{
-		FighterPawn->Kick();
+		FighterPawn->FighterKick();
 	}
 }
 
@@ -78,7 +78,7 @@ void AFighterPlayerController::Block()
 {
 	if (FighterPawn)
 	{
-		FighterPawn->Block();
+		FighterPawn->FighterBlock();
 	}
 }
 
@@ -86,7 +86,7 @@ void AFighterPlayerController::Special()
 {
 	if (FighterPawn)
 	{
-		FighterPawn->Special();
+		FighterPawn->FighterSpecial();
 	}
 }
 
@@ -94,6 +94,6 @@ void AFighterPlayerController::Ultimate()
 {
 	if (FighterPawn)
 	{
-		FighterPawn->Ultimate();
+		FighterPawn->FighterUltimate();
 	}
 }

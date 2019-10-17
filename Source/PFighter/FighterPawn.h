@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
+#include "GameFramework/Character.h"
 #include "FighterPawn.generated.h"
 
 UCLASS()
-class PFIGHTER_API AFighterPawn : public APawn
+class PFIGHTER_API AFighterPawn : public ACharacter
 {
 	GENERATED_BODY()
 
@@ -23,27 +23,31 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintImplementableEvent)
-	void MoveRight(float AxisValue);
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void FighterMoveRight(float AxisValue);
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void Jump();
+	void FighterJump();
 	UFUNCTION(BlueprintImplementableEvent)
-	void Crouch();
+	void FighterCrouch();
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void Punch();
+	void FighterPunch();
 	UFUNCTION(BlueprintImplementableEvent)
-	void Kick();
+	void FighterKick();
 	UFUNCTION(BlueprintImplementableEvent)
-	void Block();
+	void FighterBlock();
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void Special();
+	void FighterSpecial();
 	UFUNCTION(BlueprintImplementableEvent)
-	void Ultimate();
+	void FighterUltimate();
 
 protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	FVector CurrentVelocity;
+
+public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	USkeletalMeshComponent* Mesh;
+	float FighterMoveSpeed;
 };
