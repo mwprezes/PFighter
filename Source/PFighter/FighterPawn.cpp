@@ -15,6 +15,8 @@ AFighterPawn::AFighterPawn(const FObjectInitializer& ObjectInitializer)
 	Mesh = ObjectInitializer.CreateDefaultSubobject<USkeletalMeshComponent>(this, TEXT("FighterBodyMesh"));
 	Mesh->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 
+	FighterMovementComponent = ObjectInitializer.CreateDefaultSubobject<UCharacterMovementComponent>(this, TEXT("FighterMovementComponent"));
+
 }
 
 // Called when the game starts or when spawned
