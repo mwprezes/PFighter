@@ -23,13 +23,15 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent)
 	void FighterMoveRight(float AxisValue);
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintNativeEvent)
 	void FighterJump();
-	UFUNCTION(BlueprintImplementableEvent)
-	void FighterCrouch();
+	UFUNCTION(BlueprintNativeEvent)
+	void FighterCrouchPressed();
+	UFUNCTION(BlueprintNativeEvent)
+	void FighterCrouchReleased();
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void FighterPunch();
@@ -44,8 +46,6 @@ public:
 	void FighterUltimate();
 
 protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	FVector CurrentVelocity;
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

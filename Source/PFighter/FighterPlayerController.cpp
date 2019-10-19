@@ -17,7 +17,8 @@ void AFighterPlayerController::SetupInputComponent()
 	InputComponent->BindAxis("MoveRight", this, &AFighterPlayerController::MoveRight);
 
 	InputComponent->BindAction("Jump", EInputEvent::IE_Pressed, this, &AFighterPlayerController::Jump);
-	InputComponent->BindAction("Crouch", EInputEvent::IE_Pressed, this, &AFighterPlayerController::Crouch);
+	InputComponent->BindAction("Crouch", EInputEvent::IE_Pressed, this, &AFighterPlayerController::CrouchPressed);
+	InputComponent->BindAction("Crouch", EInputEvent::IE_Released, this, &AFighterPlayerController::CrouchReleased);
 	InputComponent->BindAction("Punch", EInputEvent::IE_Pressed, this, &AFighterPlayerController::Punch);
 	InputComponent->BindAction("Kick", EInputEvent::IE_Pressed, this, &AFighterPlayerController::Kick);
 	InputComponent->BindAction("Block", EInputEvent::IE_Pressed, this, &AFighterPlayerController::Block);
@@ -50,11 +51,19 @@ void AFighterPlayerController::Jump()
 	}
 }
 
-void AFighterPlayerController::Crouch()
+void AFighterPlayerController::CrouchPressed()
 {
 	if (FighterPawn)
 	{
-		FighterPawn->FighterCrouch();
+		FighterPawn->FighterCrouchPressed();
+	}
+}
+
+void AFighterPlayerController::CrouchReleased()
+{
+	if (FighterPawn)
+	{
+		FighterPawn->FighterCrouchReleased();
 	}
 }
 

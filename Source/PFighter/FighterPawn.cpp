@@ -5,7 +5,6 @@
 // Sets default values
 AFighterPawn::AFighterPawn(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
-	, CurrentVelocity(FVector::ZeroVector)
 	, FighterMoveSpeed(100.0f)
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -22,16 +21,26 @@ void AFighterPawn::BeginPlay()
 void AFighterPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	if (!CurrentVelocity.IsZero())
-	{
-		SetActorLocation(GetActorLocation() + CurrentVelocity * DeltaTime);
-	}
 }
 
 void AFighterPawn::FighterMoveRight_Implementation(float AxisValue)
 {
-	CurrentVelocity = GetActorRightVector() * AxisValue * FighterMoveSpeed;
+	AddMovementInput(GetActorRightVector(), AxisValue * FighterMoveSpeed);
+}
+
+void AFighterPawn::FighterJump_Implementation()
+{
+	Jump();
+}
+
+void AFighterPawn::FighterCrouchPressed_Implementation()
+{
+	
+}
+
+void AFighterPawn::FighterCrouchReleased_Implementation()
+{
+
 }
 
 

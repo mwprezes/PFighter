@@ -33,7 +33,8 @@ protected:
 
 	//Functions binded to input actions
 	void Jump();
-	void Crouch();
+	void CrouchPressed();
+	void CrouchReleased();
 
 	void Punch();
 	void Kick();
