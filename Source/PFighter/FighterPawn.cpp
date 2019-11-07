@@ -23,9 +23,14 @@ void AFighterPawn::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AFighterPawn::FighterMoveRight_Implementation(float AxisValue)
+void AFighterPawn::FighterMoveRight_Implementation(FVector Direction, float AxisValue)
 {
-	AddMovementInput(GetActorRightVector(), AxisValue * FighterMoveSpeed);
+	AddMovementInput(Direction, AxisValue * FighterMoveSpeed);
+}
+
+void AFighterPawn::FighterMoveForward_Implementation(FVector Direction, float AxisValue)
+{
+	AddMovementInput(Direction, AxisValue * FighterMoveSpeed);
 }
 
 void AFighterPawn::FighterJump_Implementation()

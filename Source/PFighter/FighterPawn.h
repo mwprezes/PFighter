@@ -24,7 +24,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintNativeEvent)
-	void FighterMoveRight(float AxisValue);
+	void FighterMoveRight(FVector Direction, float AxisValue);
+	UFUNCTION(BlueprintNativeEvent)
+	void FighterMoveForward(FVector Direction, float AxisValue);
 
 	UFUNCTION(BlueprintNativeEvent)
 	void FighterJump();

@@ -3,9 +3,11 @@
 
 #include "FighterPlayerController.h"
 #include "FighterPawn.h"
+#include "Kismet/KismetMathLibrary.h"
 
 AFighterPlayerController::AFighterPlayerController() 
 	: FighterPawn(nullptr)
+	, ActualState(EControllerStateEnum::Game)
 {
 
 }
@@ -15,6 +17,7 @@ void AFighterPlayerController::SetupInputComponent()
 	Super::SetupInputComponent();
 
 	InputComponent->BindAxis("MoveRight", this, &AFighterPlayerController::MoveRight);
+	InputComponent->BindAxis("MoveForward", this, &AFighterPlayerController::MoveForward);
 
 	InputComponent->BindAction("Jump", EInputEvent::IE_Pressed, this, &AFighterPlayerController::Jump);
 	InputComponent->BindAction("Crouch", EInputEvent::IE_Pressed, this, &AFighterPlayerController::CrouchPressed);
@@ -39,7 +42,36 @@ void AFighterPlayerController::MoveRight(float AxisValue)
 {
 	if (FighterPawn)
 	{
-		FighterPawn->FighterMoveRight(FMath::Clamp(AxisValue, -1.0f, 1.0f));
+		switch (ActualState)
+		{
+		case EControllerStateEnum::Game:
+			FighterPawn->FighterMoveRight(FighterPawn->GetActorRightVector(), FMath::Clamp(AxisValue, -1.0f, 1.0f));
+			break;
+		case EControllerStateEnum::Lobby:
+			FighterPawn->FighterMoveRight(UKismetMathLibrary::GetRightVector(FRotator(0.0f, GetControlRotation().Yaw, 0.0f))
+				, FMath::Clamp(AxisValue, -1.0f, 1.0f));
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void AFighterPlayerController::MoveForward(float AxisValue)
+{
+	if (FighterPawn)
+	{
+		switch (ActualState)
+		{
+		case EControllerStateEnum::Game:
+			break;
+		case EControllerStateEnum::Lobby:
+			FighterPawn->FighterMoveRight(UKismetMathLibrary::GetForwardVector(FRotator(0.0f, GetControlRotation().Yaw, 0.0f))
+				, FMath::Clamp(AxisValue, -1.0f, 1.0f));
+			break;
+		default:
+			break;
+		}
 	}
 }
 
