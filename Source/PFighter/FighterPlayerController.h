@@ -36,8 +36,7 @@ protected:
 	AFighterPawn* FighterPawn;
 
 	//Function binded to input axis
-	void MoveRight(float AxisValue);
-	void MoveForward(float AxisValue);
+	virtual void MoveRight(float AxisValue);
 
 	//Functions binded to input actions
 	void Jump();
@@ -50,8 +49,4 @@ protected:
 
 	void Special();
 	void Ultimate();
-
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	EControllerStateEnum ActualState;
 };
