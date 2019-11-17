@@ -24,7 +24,7 @@ class PFIGHTER_API AFighterPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
-	AFighterPlayerController();
+	AFighterPlayerController(const FObjectInitializer& ObjectInitializer);
 
 	virtual void SetupInputComponent() override;
 
@@ -36,11 +36,15 @@ protected:
 	AFighterPawn* FighterPawn;
 
 	//Function binded to input axis
+	UFUNCTION(Reliable, Server)
 	virtual void MoveRight(float AxisValue);
 
 	//Functions binded to input actions
+	UFUNCTION(Reliable, Server)
 	void Jump();
+	UFUNCTION(Reliable, Server)
 	void CrouchPressed();
+	UFUNCTION(Reliable, Server)
 	void CrouchReleased();
 
 	void Punch();

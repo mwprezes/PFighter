@@ -4,8 +4,9 @@
 #include "FighterPlayerController.h"
 #include "FighterPawn.h"
 
-AFighterPlayerController::AFighterPlayerController() 
-	: FighterPawn(nullptr)
+AFighterPlayerController::AFighterPlayerController(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
+	, FighterPawn(nullptr)
 {
 
 }
@@ -35,15 +36,15 @@ void AFighterPlayerController::OnPossess(APawn * InPawn)
 	}
 }
 
-void AFighterPlayerController::MoveRight(float AxisValue)
+void AFighterPlayerController::MoveRight_Implementation(float AxisValue)
 {
-	if (FighterPawn)
+	if (FighterPawn && AxisValue != 0.0f)
 	{
 		FighterPawn->FighterMoveRight(FighterPawn->GetActorRightVector(), FMath::Clamp(AxisValue, -1.0f, 1.0f));
 	}
 }
 
-void AFighterPlayerController::Jump()
+void AFighterPlayerController::Jump_Implementation()
 {
 	if (FighterPawn)
 	{
@@ -51,7 +52,7 @@ void AFighterPlayerController::Jump()
 	}
 }
 
-void AFighterPlayerController::CrouchPressed()
+void AFighterPlayerController::CrouchPressed_Implementation()
 {
 	if (FighterPawn)
 	{
@@ -59,7 +60,7 @@ void AFighterPlayerController::CrouchPressed()
 	}
 }
 
-void AFighterPlayerController::CrouchReleased()
+void AFighterPlayerController::CrouchReleased_Implementation()
 {
 	if (FighterPawn)
 	{

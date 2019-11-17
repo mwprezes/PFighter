@@ -4,7 +4,7 @@
 #include "FighterPawn.h"
 #include "Kismet/KismetMathLibrary.h"
 
-ALobbyFighterPlayerController::ALobbyFighterPlayerController(): Super()
+ALobbyFighterPlayerController::ALobbyFighterPlayerController(const FObjectInitializer& ObjectInitializer): Super(ObjectInitializer)
 {
 
 }
@@ -15,18 +15,18 @@ void ALobbyFighterPlayerController::SetupInputComponent()
 	InputComponent->BindAxis("MoveForward", this, &ALobbyFighterPlayerController::MoveForward);
 }
 
-void ALobbyFighterPlayerController::MoveRight(float AxisValue)
+void ALobbyFighterPlayerController::MoveRight_Implementation(float AxisValue)
 {
-	if (FighterPawn)
+	if (FighterPawn && AxisValue != 0.0f)
 	{
 		FighterPawn->FighterMoveRight(UKismetMathLibrary::GetRightVector(FRotator(0.0f, GetControlRotation().Yaw, 0.0f)), FMath::Clamp(AxisValue, -1.0f, 1.0f));
 	}
 }
 
-void ALobbyFighterPlayerController::MoveForward(float AxisValue)
+void ALobbyFighterPlayerController::MoveForward_Implementation(float AxisValue)
 {
-	if (FighterPawn)
+	if (FighterPawn && AxisValue != 0.0f)
 	{
-		FighterPawn->FighterMoveRight(UKismetMathLibrary::GetForwardVector(FRotator(0.0f, GetControlRotation().Yaw, 0.0f)), FMath::Clamp(AxisValue, -1.0f, 1.0f));
+		FighterPawn->FighterMoveForward(UKismetMathLibrary::GetForwardVector(FRotator(0.0f, GetControlRotation().Yaw, 0.0f)), FMath::Clamp(AxisValue, -1.0f, 1.0f));
 	}
 }

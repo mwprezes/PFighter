@@ -15,12 +15,13 @@ class PFIGHTER_API ALobbyFighterPlayerController : public AFighterPlayerControll
 	GENERATED_BODY()
 	
 public:
-	ALobbyFighterPlayerController();
+	ALobbyFighterPlayerController(const FObjectInitializer& ObjectInitializer);
 
 	virtual void SetupInputComponent() override;
 
 	//Function binded to input axis
 protected:
-	virtual void MoveRight(float AxisValue) override;
+	virtual void MoveRight_Implementation(float AxisValue) override;
+	UFUNCTION(Reliable, Server)
 	void MoveForward(float AxisValue);
 };

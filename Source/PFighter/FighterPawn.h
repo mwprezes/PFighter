@@ -23,16 +23,16 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(Reliable, NetMulticast)
 	void FighterMoveRight(FVector Direction, float AxisValue);
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(Reliable, NetMulticast)
 	void FighterMoveForward(FVector Direction, float AxisValue);
 
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(Reliable, NetMulticast)
 	void FighterJump();
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(Reliable, NetMulticast)
 	void FighterCrouchPressed();
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(Reliable, NetMulticast)
 	void FighterCrouchReleased();
 
 	UFUNCTION(BlueprintImplementableEvent)
