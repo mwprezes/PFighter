@@ -15,6 +15,8 @@ public:
 	// Sets default values for this pawn's properties
 	AFighterPawn(const FObjectInitializer& ObjectInitializer);
 
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -23,16 +25,16 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(Reliable, Client)
-	void FighterMoveRight(FVector Direction, float AxisValue);
-	UFUNCTION(Reliable, Client)
-	void FighterMoveForward(FVector Direction, float AxisValue);
+	UFUNCTION(Reliable, NetMulticast)
+	void FighterMoveRight(float AxisValue);
+	UFUNCTION(Reliable, NetMulticast)
+	void FighterMoveForward(float AxisValue);
 
-	UFUNCTION(Reliable, Client)
+	UFUNCTION(Reliable, NetMulticast)
 	void FighterJump();
-	UFUNCTION(Reliable, Client)
+	UFUNCTION(Reliable, NetMulticast)
 	void FighterCrouchPressed();
-	UFUNCTION(Reliable, Client)
+	UFUNCTION(Reliable, NetMulticast)
 	void FighterCrouchReleased();
 
 	UFUNCTION(BlueprintImplementableEvent)
