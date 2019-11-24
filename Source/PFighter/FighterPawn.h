@@ -6,6 +6,13 @@
 #include "GameFramework/Character.h"
 #include "FighterPawn.generated.h"
 
+UENUM(BlueprintType)
+enum class EInputModeEnum : uint8
+{
+	Lobby,
+	Game
+};
+
 UCLASS()
 class PFIGHTER_API AFighterPawn : public ACharacter
 {
@@ -37,16 +44,16 @@ public:
 	UFUNCTION(Reliable, NetMulticast)
 	void FighterCrouchReleased();
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(Reliable, NetMulticast)
 	void FighterPunch();
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(Reliable, NetMulticast)
 	void FighterKick();
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(Reliable, NetMulticast)
 	void FighterBlock();
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(Reliable, NetMulticast)
 	void FighterSpecial();
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(Reliable, NetMulticast)
 	void FighterUltimate();
 
 protected:
@@ -54,4 +61,7 @@ protected:
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float FighterMoveSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	EInputModeEnum ActualInputMode;
 };

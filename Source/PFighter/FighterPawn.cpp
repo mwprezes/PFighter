@@ -6,6 +6,7 @@
 AFighterPawn::AFighterPawn(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 	, FighterMoveSpeed(100.0f)
+	, ActualInputMode(EInputModeEnum::Lobby)
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -43,17 +44,28 @@ void AFighterPawn::Tick(float DeltaTime)
 
 void AFighterPawn::FighterMoveRight_Implementation(float AxisValue)
 {
-	AddMovementInput(GetActorRightVector(), AxisValue * FighterMoveSpeed);
+	AddMovementInput(FVector(0.0f, 1.0f, 0.0f), AxisValue * FighterMoveSpeed);
 }
 
 void AFighterPawn::FighterMoveForward_Implementation(float AxisValue)
 {
-	AddMovementInput(GetActorForwardVector(), AxisValue * FighterMoveSpeed);
+	switch (ActualInputMode)
+	{
+	case EInputModeEnum::Lobby:
+		AddMovementInput(FVector(1.0f, 0.0f, 0.0f), AxisValue * FighterMoveSpeed);
+		break;
+
+	case EInputModeEnum::Game:
+		break;
+
+	default:
+		break;
+	}
 }
 
 void AFighterPawn::FighterJump_Implementation()
 {
-	//Jump();
+	Jump();
 }
 
 void AFighterPawn::FighterCrouchPressed_Implementation()
@@ -66,4 +78,22 @@ void AFighterPawn::FighterCrouchReleased_Implementation()
 
 }
 
+void AFighterPawn::FighterPunch_Implementation()
+{
+}
 
+void AFighterPawn::FighterKick_Implementation()
+{
+}
+
+void AFighterPawn::FighterBlock_Implementation()
+{
+}
+
+void AFighterPawn::FighterSpecial_Implementation()
+{
+}
+
+void AFighterPawn::FighterUltimate_Implementation()
+{
+}
