@@ -6,6 +6,13 @@
 #include "GameFramework/Character.h"
 #include "FighterPawn.generated.h"
 
+UENUM(BlueprintType)
+enum class EInputModeEnum : uint8
+{
+	Lobby,
+	Game
+};
+
 UCLASS()
 class PFIGHTER_API AFighterPawn : public ACharacter
 {
@@ -15,6 +22,8 @@ public:
 	// Sets default values for this pawn's properties
 	AFighterPawn(const FObjectInitializer& ObjectInitializer);
 
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -23,28 +32,28 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(Reliable, Client)
-	void FighterMoveRight(FVector Direction, float AxisValue);
-	UFUNCTION(Reliable, Client)
-	void FighterMoveForward(FVector Direction, float AxisValue);
+	UFUNCTION(Reliable, NetMulticast)
+	void FighterMoveRight(float AxisValue);
+	UFUNCTION(Reliable, NetMulticast)
+	void FighterMoveForward(float AxisValue);
 
-	UFUNCTION(Reliable, Client)
+	UFUNCTION(Reliable, NetMulticast)
 	void FighterJump();
-	UFUNCTION(Reliable, Client)
+	UFUNCTION(Reliable, NetMulticast)
 	void FighterCrouchPressed();
-	UFUNCTION(Reliable, Client)
+	UFUNCTION(Reliable, NetMulticast)
 	void FighterCrouchReleased();
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(Reliable, NetMulticast)
 	void FighterPunch();
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(Reliable, NetMulticast)
 	void FighterKick();
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(Reliable, NetMulticast)
 	void FighterBlock();
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(Reliable, NetMulticast)
 	void FighterSpecial();
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(Reliable, NetMulticast)
 	void FighterUltimate();
 
 protected:
@@ -52,4 +61,7 @@ protected:
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float FighterMoveSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	EInputModeEnum ActualInputMode;
 };
