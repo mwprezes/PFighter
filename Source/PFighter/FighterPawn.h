@@ -6,13 +6,6 @@
 #include "GameFramework/Character.h"
 #include "FighterPawn.generated.h"
 
-UENUM(BlueprintType)
-enum class EInputModeEnum : uint8
-{
-	Lobby,
-	Game
-};
-
 UCLASS()
 class PFIGHTER_API AFighterPawn : public ACharacter
 {
@@ -32,24 +25,63 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(Reliable, NetMulticast)
+	// Replicated inputs
+
+	//Movement
 	void FighterMoveRight(float AxisValue);
+	UFUNCTION(Reliable, Server)
+	void ServerFighterMoveRight(float AxisValue);
 	UFUNCTION(Reliable, NetMulticast)
-	void FighterMoveForward(float AxisValue);
+	void MulticastFighterMoveRight(float AxisValue);
 
-	UFUNCTION(Reliable, NetMulticast)
+	//Jump
 	void FighterJump();
+	UFUNCTION(Reliable, Server)
+	void ServerFighterJump();
 	UFUNCTION(Reliable, NetMulticast)
-	void FighterCrouchPressed();
-	UFUNCTION(Reliable, NetMulticast)
-	void FighterCrouchReleased();
+	void MulticastFighterJump();
 
+	//CrouchPressed
+	void FighterCrouchPressed();
+	UFUNCTION(Reliable, Server)
+	void ServerFighterCrouchPressed();
 	UFUNCTION(Reliable, NetMulticast)
+	void MulticastFighterCrouchPressed();
+
+	//CrouchReleased
+	void FighterCrouchReleased();
+	UFUNCTION(Reliable, Server)
+	void ServerFighterCrouchReleased();
+	UFUNCTION(Reliable, NetMulticast)
+	void MulticastFighterCrouchReleased();
+
+	//Punch
 	void FighterPunch();
+	UFUNCTION(Reliable, Server)
+	void ServerFighterPunch();
 	UFUNCTION(Reliable, NetMulticast)
+	void MulticastFighterPunch();
+
+	//Kick
 	void FighterKick();
+	UFUNCTION(Reliable, Server)
+	void ServerFighterKick();
 	UFUNCTION(Reliable, NetMulticast)
-	void FighterBlock();
+	void MulticastFighterKick();
+
+	//BlockPressed
+	void FighterBlockPressed();
+	UFUNCTION(Reliable, Server)
+	void ServerFighterBlockPressed();
+	UFUNCTION(Reliable, NetMulticast)
+	void MulticastFighterBlockPressed();
+
+	//BlockReleased
+	void FighterBlockReleased();
+	UFUNCTION(Reliable, Server)
+	void ServerFighterBlockReleased();
+	UFUNCTION(Reliable, NetMulticast)
+	void MulticastFighterBlockReleased();
 
 	UFUNCTION(Reliable, NetMulticast)
 	void FighterSpecial();
@@ -62,6 +94,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float FighterMoveSpeed;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	EInputModeEnum ActualInputMode;
+	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite)
+	bool IsPunchPressed;
+
+	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite)
+	bool IsKickPressed;
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 };
