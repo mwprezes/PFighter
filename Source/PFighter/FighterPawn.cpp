@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "FighterPawn.h"
+#include "GameFramework/PawnMovementComponent.h"
 
 // Sets default values
 AFighterPawn::AFighterPawn(const FObjectInitializer& ObjectInitializer)
@@ -44,38 +45,54 @@ void AFighterPawn::Tick(float DeltaTime)
 
 void AFighterPawn::FighterMoveRight_Implementation(float AxisValue)
 {
-	AddMovementInput(FVector(0.0f, 1.0f, 0.0f), AxisValue * FighterMoveSpeed);
+	if (!GetMovementComponent()->IsFalling())
+	{
+		AddMovementInput(FVector(0.0f, 1.0f, 0.0f), AxisValue * FighterMoveSpeed);
+	}
 }
 
 void AFighterPawn::FighterMoveForward_Implementation(float AxisValue)
 {
-	switch (ActualInputMode)
+	if (!GetMovementComponent()->IsFalling())
 	{
-	case EInputModeEnum::Lobby:
-		AddMovementInput(FVector(1.0f, 0.0f, 0.0f), AxisValue * FighterMoveSpeed);
-		break;
+		switch (ActualInputMode)
+		{
+		case EInputModeEnum::Lobby:
+			AddMovementInput(FVector(1.0f, 0.0f, 0.0f), AxisValue * FighterMoveSpeed);
+			break;
 
-	case EInputModeEnum::Game:
-		break;
+		case EInputModeEnum::Game:
+			break;
 
-	default:
-		break;
+		default:
+			break;
+		}
 	}
 }
 
 void AFighterPawn::FighterJump_Implementation()
 {
-	Jump();
+	if (!GetMovementComponent()->IsFalling())
+	{
+		GetMovementComponent()->StopMovementImmediately();
+		Jump();
+	}
 }
 
 void AFighterPawn::FighterCrouchPressed_Implementation()
 {
-	
+	if (!GetMovementComponent()->IsFalling())
+	{
+
+	}
 }
 
 void AFighterPawn::FighterCrouchReleased_Implementation()
 {
+	if (!GetMovementComponent()->IsFalling())
+	{
 
+	}
 }
 
 void AFighterPawn::FighterPunch_Implementation()
