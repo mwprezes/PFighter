@@ -9,6 +9,7 @@
 AFighterPawn::AFighterPawn(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 	, FighterMoveSpeed(100.0f)
+	, ActualInput(EActualInput::None)
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -172,7 +173,7 @@ void AFighterPawn::FighterPunch()
 	}
 	else
 	{
-		IsPunchPressed = true;
+		ActualInput = EActualInput::Punch;
 		ServerFighterPunch();
 	}
 }
@@ -184,7 +185,7 @@ void AFighterPawn::ServerFighterPunch_Implementation()
 
 void AFighterPawn::MulticastFighterPunch_Implementation()
 {
-	IsPunchPressed = true;
+	ActualInput = EActualInput::Punch;
 }
 
 void AFighterPawn::FighterKick()
@@ -195,7 +196,7 @@ void AFighterPawn::FighterKick()
 	}
 	else
 	{
-		IsKickPressed = true;
+		ActualInput = EActualInput::Kick;
 		ServerFighterKick();
 	}
 }
@@ -207,7 +208,7 @@ void AFighterPawn::ServerFighterKick_Implementation()
 
 void AFighterPawn::MulticastFighterKick_Implementation()
 {
-	IsKickPressed = true;
+	ActualInput = EActualInput::Kick;
 }
 
 void AFighterPawn::FighterBlockPressed()
@@ -262,6 +263,5 @@ void AFighterPawn::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutL
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	DOREPLIFETIME(AFighterPawn, IsPunchPressed);
-	DOREPLIFETIME(AFighterPawn, IsKickPressed);
+	DOREPLIFETIME(AFighterPawn, ActualInput);
 }

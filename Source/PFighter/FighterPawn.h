@@ -6,6 +6,16 @@
 #include "GameFramework/Character.h"
 #include "FighterPawn.generated.h"
 
+UENUM(BlueprintType)		//"BlueprintType" is essential to include
+enum class EActualInput : uint8
+{
+	None,
+	Punch,
+	Kick,
+	Special,
+	Ultimate
+};
+
 UCLASS()
 class PFIGHTER_API AFighterPawn : public ACharacter
 {
@@ -95,10 +105,7 @@ public:
 	float FighterMoveSpeed;
 
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite)
-	bool IsPunchPressed;
-
-	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite)
-	bool IsKickPressed;
+	EActualInput ActualInput;
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
