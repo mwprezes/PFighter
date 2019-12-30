@@ -8,6 +8,7 @@
 // Sets default values
 AFighterPawn::AFighterPawn(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
+	, bCanMoveInAir(false)
 	, FighterMoveSpeed(100.0f)
 	, ActualInput(EActualInput::None)
 {
@@ -55,7 +56,7 @@ void AFighterPawn::FighterMoveRight(float AxisValue)
 	}
 	else
 	{
-		if (!GetMovementComponent()->IsFalling())
+		if (bCanMoveInAir || !GetMovementComponent()->IsFalling())
 		{
 			AddMovementInput(FVector(0.0f, 1.0f, 0.0f), AxisValue * FighterMoveSpeed);
 			ServerFighterMoveRight(AxisValue);
@@ -70,7 +71,7 @@ void AFighterPawn::ServerFighterMoveRight_Implementation(float AxisValue)
 
 void AFighterPawn::MulticastFighterMoveRight_Implementation(float AxisValue)
 {
-	if (!GetMovementComponent()->IsFalling())
+	if (bCanMoveInAir || !GetMovementComponent()->IsFalling())
 	{
 		AddMovementInput(FVector(0.0f, 1.0f, 0.0f), AxisValue * FighterMoveSpeed);
 	}
@@ -86,7 +87,7 @@ void AFighterPawn::FighterJump()
 	{
 		if (!GetMovementComponent()->IsFalling())
 		{
-			GetMovementComponent()->StopMovementImmediately();
+			if(!bCanMoveInAir) GetMovementComponent()->StopMovementImmediately();
 			Jump();
 			ServerFighterJump();
 		}
@@ -102,7 +103,7 @@ void AFighterPawn::MulticastFighterJump_Implementation()
 {
 	if (!GetMovementComponent()->IsFalling())
 	{
-		GetMovementComponent()->StopMovementImmediately();
+		if(!bCanMoveInAir) GetMovementComponent()->StopMovementImmediately();
 		Jump();
 	}
 }
@@ -219,16 +220,19 @@ void AFighterPawn::FighterBlockPressed()
 	}
 	else
 	{
+		Block();
 		ServerFighterBlockPressed();
 	}
 }
 
 void AFighterPawn::ServerFighterBlockPressed_Implementation()
 {
+	MulticastFighterBlockPressed();
 }
 
 void AFighterPawn::MulticastFighterBlockPressed_Implementation()
 {
+	Block();
 }
 
 void AFighterPawn::FighterBlockReleased()
@@ -239,24 +243,65 @@ void AFighterPawn::FighterBlockReleased()
 	}
 	else
 	{
+		UnBlock();
 		ServerFighterBlockReleased();
 	}
 }
 
 void AFighterPawn::ServerFighterBlockReleased_Implementation()
 {
+	MulticastFighterBlockReleased();
 }
 
 void AFighterPawn::MulticastFighterBlockReleased_Implementation()
 {
+	UnBlock();
 }
 
-void AFighterPawn::FighterSpecial_Implementation()
+void AFighterPawn::FighterSpecial()
 {
+	if (Role == ROLE_Authority)
+	{
+		MulticastFighterSpecial();
+	}
+	else
+	{
+		ActualInput = EActualInput::Special;
+		ServerFighterSpecial();
+	}
 }
 
-void AFighterPawn::FighterUltimate_Implementation()
+void AFighterPawn::ServerFighterSpecial_Implementation()
 {
+	MulticastFighterSpecial();
+}
+
+void AFighterPawn::MulticastFighterSpecial_Implementation()
+{
+	ActualInput = EActualInput::Special;
+}
+
+void AFighterPawn::FighterUltimate()
+{
+	if (Role == ROLE_Authority)
+	{
+		MulticastFighterUltimate();
+	}
+	else
+	{
+		ActualInput = EActualInput::Ultimate;
+		ServerFighterUltimate();
+	}
+}
+
+void AFighterPawn::ServerFighterUltimate_Implementation()
+{
+	MulticastFighterUltimate();
+}
+
+void AFighterPawn::MulticastFighterUltimate_Implementation()
+{
+	ActualInput = EActualInput::Ultimate;
 }
 
 void AFighterPawn::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const

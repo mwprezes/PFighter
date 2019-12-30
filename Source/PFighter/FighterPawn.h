@@ -93,14 +93,36 @@ public:
 	UFUNCTION(Reliable, NetMulticast)
 	void MulticastFighterBlockReleased();
 
-	UFUNCTION(Reliable, NetMulticast)
+	//Special
 	void FighterSpecial();
+	UFUNCTION(Reliable, Server)
+	void ServerFighterSpecial();
 	UFUNCTION(Reliable, NetMulticast)
+	void MulticastFighterSpecial();
+
+	//Ultimate
 	void FighterUltimate();
+	UFUNCTION(Reliable, Server)
+	void ServerFighterUltimate();
+	UFUNCTION(Reliable, NetMulticast)
+	void MulticastFighterUltimate();
+
+	//End of replicated inputs
+
+	//Here implement mechanics of starting blocking
+	UFUNCTION(BlueprintImplementableEvent)
+	void Block();
+
+	//Here implement mechanics of ending blocking
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void UnBlock();
 
 protected:
 
 public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bCanMoveInAir;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float FighterMoveSpeed;
 
