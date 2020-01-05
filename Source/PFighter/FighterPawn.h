@@ -107,6 +107,14 @@ public:
 	UFUNCTION(Reliable, NetMulticast)
 	void MulticastFighterUltimate();
 
+	//ConsumeInput
+	UFUNCTION(BlueprintCallable)
+	void FighterConsumeInput();
+	UFUNCTION(Reliable, Server)
+	void ServerFighterConsumeInput();
+	UFUNCTION(Reliable, NetMulticast)
+	void MulticastFighterConsumeInput();
+
 	//End of replicated inputs
 
 	//Here implement mechanics of starting blocking

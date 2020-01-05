@@ -304,6 +304,29 @@ void AFighterPawn::MulticastFighterUltimate_Implementation()
 	ActualInput = EActualInput::Ultimate;
 }
 
+void AFighterPawn::FighterConsumeInput()
+{
+	if (Role == ROLE_Authority)
+	{
+		MulticastFighterConsumeInput();
+	}
+	else
+	{
+		ActualInput = EActualInput::None;
+		ServerFighterConsumeInput();
+	}
+}
+
+void AFighterPawn::ServerFighterConsumeInput_Implementation()
+{
+	MulticastFighterConsumeInput();
+}
+
+void AFighterPawn::MulticastFighterConsumeInput_Implementation()
+{
+	ActualInput = EActualInput::None;
+}
+
 void AFighterPawn::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
