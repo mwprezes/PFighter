@@ -132,6 +132,9 @@ public:
 	bool bCanMoveInAir;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bIsBlocking;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float FighterMoveSpeed;
 
 	UPROPERTY(Replicated, EditAnywhere, BlueprintReadWrite)

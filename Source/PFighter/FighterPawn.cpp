@@ -9,6 +9,7 @@
 AFighterPawn::AFighterPawn(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 	, bCanMoveInAir(false)
+	, bIsBlocking(false)
 	, FighterMoveSpeed(100.0f)
 	, ActualInput(EActualInput::None)
 {
@@ -56,7 +57,7 @@ void AFighterPawn::FighterMoveRight(float AxisValue)
 	}
 	else
 	{
-		if (bCanMoveInAir || !GetMovementComponent()->IsFalling())
+		if ((bCanMoveInAir || !GetMovementComponent()->IsFalling()) && !bIsBlocking)
 		{
 			AddMovementInput(FVector(0.0f, 1.0f, 0.0f), AxisValue * FighterMoveSpeed);
 			ServerFighterMoveRight(AxisValue);
@@ -71,7 +72,7 @@ void AFighterPawn::ServerFighterMoveRight_Implementation(float AxisValue)
 
 void AFighterPawn::MulticastFighterMoveRight_Implementation(float AxisValue)
 {
-	if (bCanMoveInAir || !GetMovementComponent()->IsFalling())
+	if ((bCanMoveInAir || !GetMovementComponent()->IsFalling()) && !bIsBlocking)
 	{
 		AddMovementInput(FVector(0.0f, 1.0f, 0.0f), AxisValue * FighterMoveSpeed);
 	}
@@ -85,7 +86,7 @@ void AFighterPawn::FighterJump()
 	}
 	else
 	{
-		if (!GetMovementComponent()->IsFalling())
+		if (!GetMovementComponent()->IsFalling() && !bIsBlocking)
 		{
 			if(!bCanMoveInAir) GetMovementComponent()->StopMovementImmediately();
 			Jump();
@@ -101,7 +102,7 @@ void AFighterPawn::ServerFighterJump_Implementation()
 
 void AFighterPawn::MulticastFighterJump_Implementation()
 {
-	if (!GetMovementComponent()->IsFalling())
+	if (!GetMovementComponent()->IsFalling() && !bIsBlocking)
 	{
 		if(!bCanMoveInAir) GetMovementComponent()->StopMovementImmediately();
 		Jump();
@@ -220,8 +221,11 @@ void AFighterPawn::FighterBlockPressed()
 	}
 	else
 	{
-		Block();
-		ServerFighterBlockPressed();
+		if (!GetMovementComponent()->IsFalling())
+		{
+			Block();
+			ServerFighterBlockPressed();
+		}
 	}
 }
 
@@ -232,7 +236,10 @@ void AFighterPawn::ServerFighterBlockPressed_Implementation()
 
 void AFighterPawn::MulticastFighterBlockPressed_Implementation()
 {
-	Block();
+	if (!GetMovementComponent()->IsFalling())
+	{
+		Block();
+	}
 }
 
 void AFighterPawn::FighterBlockReleased()
