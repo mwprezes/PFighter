@@ -1,50 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "4.23",
+	"EngineAssociation": "4.24",
 	"Category": "",
-	"Description": "",
-	"Modules": [
-		{
-			"Name": "PFighter",
-			"Type": "Runtime",
-			"LoadingPhase": "Default",
-			"AdditionalDependencies": [
-				"Engine"
-			]
-		}
-	],
-	"Plugins": [
-		{
-			"Name": "SteamVR",
-			"Enabled": false,
-			"SupportedTargetPlatforms": [
-				"Win32",
-				"Win64",
-				"Linux",
-				"Mac"
-			]
-		},
-		{
-			"Name": "OculusVR",
-			"Enabled": false,
-			"SupportedTargetPlatforms": [
-				"Win32",
-				"Win64",
-				"Android"
-			]
-		},
-		{
-			"Name": "AdvancedSessions",
-			"Enabled": true
-		},
-		{
-			"Name": "AdvancedSteamSessions",
-			"Enabled": true
-		},
-		{
-			"Name": "BlueprintAssist",
-			"Enabled": true,
-			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/9e895371fa3a471c87337860d6f341ff"
-		}
-	]
+	"Description": ""
 }
